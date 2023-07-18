@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>firebase CRUD</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/yeti/bootstrap.min.css">
+</head>
+<body class="bg-dark">
+
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="h4">Add Tasks</h1>
+                        <form id="task-form">
+                            <label for="title">Title</label>
+                            <input class="form-control mb-3" type="text" placeholder="task title" id="task-title">
+                            <label for="descripcion">descripcion</label>
+                            <input class="form-control mb-3" type="text" placeholder="descripcion" id="task-description">
+                            <button class="btn btn-primary" id="btn-task-save">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6"  id="tasks-container">
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
