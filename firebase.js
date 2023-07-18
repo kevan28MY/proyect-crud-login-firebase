@@ -6,7 +6,12 @@
   // https://firebase.google.com/docs/web/setup#available-libraries
 
   const firebaseConfig = {
-    //datos confidenciales de la base de datos de firebase
+    apiKey: "AIzaSyDeXI7CbOUN67lt63wLzL7jLW-CjerrilE",
+    authDomain: "hotwheels-93f09.firebaseapp.com",
+    projectId: "hotwheels-93f09",
+    storageBucket: "hotwheels-93f09.appspot.com",
+    messagingSenderId: "267155086369",
+    appId: "1:267155086369:web:1959cc39bd56c6c1d0d760"
   };
 
   // Initialize Firebase
