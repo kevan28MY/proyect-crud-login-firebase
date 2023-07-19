@@ -1,4 +1,4 @@
-import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,getDownloadURL } from "./firebase.js"
+import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,getStorageURL } from "./firebase.js"
 
 
 
@@ -14,18 +14,19 @@ let editStatus=false
 let id=''
 window.addEventListener('DOMContentLoaded', async()=>{
   
-  onGetCars( (querySnapshot)=>{
-    let html = "";
+  onGetCars( (querySnapshot)=>{ 
+    carsContainer.innerHTML = "";
+    // let html = "";
     querySnapshot.forEach(async (doc) => {
       const car=doc.data()
-      //const carId = doc.id;
-      const downloadURL = await getDownloadURL(`${car.imageUrl}`);
-      const html =`
+      const downloadURL = await getStorageURL(car.imageUrl);
+      // console.log(downloadURL);
+      carsContainer.innerHTML  +=`
           <div class="card card-body mt-2 border-primary">
             <h3 class="h5">${car.title}</h3> 
             <p>${car.description}</p>
             <p>${car.cant}</p>
-            <img class="img" src="${downloadURL}" />
+            <img class="img" src="${downloadURL}" style="max-width: 200px; height: auto;" />
             <div>
               <button class="btn btn-primary btn-delete" data-id="${doc.id}">Delete</button>
               <button class="btn btn-secondary btn-edit" data-id="${doc.id}">Update</button>  
@@ -34,8 +35,8 @@ window.addEventListener('DOMContentLoaded', async()=>{
           </div>
         `;
     });
-    carsContainer.innerHTML += html;
-
+    
+});
     const btnsDelete = carsContainer.querySelectorAll('.btn-delete')
 
     btnsDelete.forEach(btn=>{
@@ -69,7 +70,7 @@ window.addEventListener('DOMContentLoaded', async()=>{
 
   } );
   
-});
+// });
 
 
 // carImageInput.addEventListener("change", (e) => {

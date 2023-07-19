@@ -96,3 +96,15 @@ export const getDownloadURL = async (filePath) => {
     throw error;
   }
 };
+
+
+export const getStorageURL = async (fileName) => {
+  try {
+    const storageRef = ref(storage, fileName);
+    const downloadURL = await storageGetDownloadURL(storageRef);
+    return downloadURL;
+  } catch (error) {
+    console.log("Error al obtener la URL de descarga:", error);
+    throw error;
+  }
+};
