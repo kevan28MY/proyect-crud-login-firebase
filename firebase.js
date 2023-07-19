@@ -65,7 +65,7 @@ export const updateCar=(id,newFields)=>updateDoc(doc(db,'cars',id), newFields);
 // };
 export const saveCarWithImage = async (title, description, cant, file) => {
   try {
-    const storageRef = ref(storage, "car-images/" + file.name);
+    const storageRef = ref(storage,"hotwheels-93f09.appspot.com/"+ file.name);
     await uploadBytes(storageRef, file);
     const downloadURL = await storageGetDownloadURL(storageRef);
     await saveCar(title, description, cant, downloadURL);
