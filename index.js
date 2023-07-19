@@ -70,23 +70,23 @@ window.addEventListener('DOMContentLoaded', async()=>{
 });
 
 
-carImageInput.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  const fileName = Math.round(Math.random() * 9999) + file.name;
-  // if (fileName) {
-  //   fileData.style.display = "block";
-  // }
-  // fileData.innerHTML = fileName;
-  console.log("nombre: "+ fileName);
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const img = document.querySelector('.img');
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+// carImageInput.addEventListener("change", (e) => {
+//   const file = e.target.files[0];
+//   const fileName = Math.round(Math.random() * 9999) + file.name;
+//   // if (fileName) {
+//   //   fileData.style.display = "block";
+//   // }
+//   // fileData.innerHTML = fileName;
+//   console.log("nombre: "+ fileName);
+//   const reader = new FileReader();
+//   reader.onload = function (e) {
+//     const img = document.querySelector('.img');
+//     img.src = e.target.result;
+//   };
+//   reader.readAsDataURL(file);
 
 
-});
+// });
 /////////////////////////////////////////////
 carForm.addEventListener('submit',async(e)=>{
   e.preventDefault();
