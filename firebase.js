@@ -1,8 +1,8 @@
 
   // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-  import { getFirestore, collection, addDoc,getDocs,onSnapshot,deleteDoc,doc,getDoc,updateDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+  import { getFirestore, collection, addDoc,getDocs,onSnapshot,deleteDoc,doc,getDoc,updateDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL as storageGetDownloadURL} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -53,21 +53,42 @@ export const getCar=(id) => getDoc(doc(db,'cars',id));
 export const updateCar=(id,newFields)=>updateDoc(doc(db,'cars',id), newFields);
 
 ////////////////////////////////////////////////////////////////
+// export const saveCarWithImage = async (title, description, cant, file) => {
+//   try {
+//     const storageRef = ref(storage,file.name);
+//     await uploadBytes(storageRef, file);
+//     const downloadURL = await getDownloadURL(storageRef);
+//     await saveCar(title, description, cant, downloadURL);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 export const saveCarWithImage = async (title, description, cant, file) => {
   try {
     const storageRef = ref(storage, "car-images/" + file.name);
     await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
+    const downloadURL = await storageGetDownloadURL(storageRef);
     await saveCar(title, description, cant, downloadURL);
   } catch (error) {
     console.log(error);
   }
 };
 
+
+// export const getDownloadURL = async (filePath) => {
+//   try {
+//     const fileRef = ref(storage, filePath);
+//     const downloadURL = await getDownloadURL(fileRef);
+//     return downloadURL;
+//   } catch (error) {
+//     console.log("Error al obtener la URL de descarga:", error);
+//     throw error;
+//   }
+// };
 export const getDownloadURL = async (filePath) => {
   try {
     const fileRef = ref(storage, filePath);
-    const downloadURL = await getDownloadURL(fileRef);
+    const downloadURL = await storageGetDownloadURL(fileRef);
     return downloadURL;
   } catch (error) {
     console.log("Error al obtener la URL de descarga:", error);

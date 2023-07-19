@@ -77,7 +77,7 @@ carImageInput.addEventListener("change", (e) => {
   //   fileData.style.display = "block";
   // }
   // fileData.innerHTML = fileName;
-  console.log("nombre :"+ fileName);
+  console.log("nombre: "+ fileName);
   const reader = new FileReader();
   reader.onload = function (e) {
     const img = document.querySelector('.img');
