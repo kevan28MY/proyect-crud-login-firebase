@@ -14,7 +14,6 @@
     storageBucket: "hotwheels-93f09.appspot.com",
     messagingSenderId: "267155086369",
     appId: "1:267155086369:web:1959cc39bd56c6c1d0d760",
-    storageBucket: ''
   };
 
   // Initialize Firebase
@@ -67,6 +66,7 @@ export const saveCarWithImage = async (title, description, cant, file) => {
   try {
     // const storageRef = ref(storage, "hotwheels-93f09.appspot.com/" + file.name);
     const storageRef = ref(storage, "car-images/" + file.name);
+  // const uploadCar = put(storageRef, file);
     await uploadBytes(storageRef, file);
     const downloadURL = await storageGetDownloadURL(storageRef);
     await saveCar(title, description, cant, downloadURL);

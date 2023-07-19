@@ -7,7 +7,9 @@ const carsContainer=document.getElementById('cars-container')
 
 const carImageInput = document.getElementById("image-input");
 
-const fileData = document.querySelector(".filedata");
+const file = carForm["image-input"].files[0];
+
+
 let editStatus=false
 let id=''
 window.addEventListener('DOMContentLoaded', async()=>{
@@ -17,7 +19,7 @@ window.addEventListener('DOMContentLoaded', async()=>{
     querySnapshot.forEach(async (doc) => {
       const car=doc.data()
       //const carId = doc.id;
-      const downloadURL = await getDownloadURL(`car-images/${doc.id}`);
+      const downloadURL = await getDownloadURL(`${car.imageUrl}`);
       const html =`
           <div class="card card-body mt-2 border-primary">
             <h3 class="h5">${car.title}</h3> 
