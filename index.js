@@ -21,19 +21,37 @@ window.addEventListener('DOMContentLoaded', async()=>{
       const car=doc.data()
       const downloadURL = await getStorageURL(car.imageUrl);
       // console.log(downloadURL);
-      carsContainer.innerHTML  +=`
-          <div class="card card-body mt-2 border-primary">
+      // carsContainer.innerHTML  +=`
+      //     <div class="card card-body mt-2 border-primary">
+      //       <h3 class="h5">${car.title}</h3> 
+      //       <p>${car.description}</p>
+      //       <p>${car.cant}</p>
+      //       <img class="img" src="${downloadURL}" style="max-width: 200px; height: auto;" /><br>
+      //       <div>
+      //         <button class="btn btn-primary btn-delete" data-id="${doc.id}">Delete</button>
+      //         <button class="btn btn-secondary btn-edit" data-id="${doc.id}">Update</button>  
+      //       </div>
+
+      //     </div>
+      //   `;
+      carsContainer.innerHTML += `
+      <div class="card card-body mt-2 border-primary">
+        <div class="row">
+          <div class="col-md-6">
             <h3 class="h5">${car.title}</h3> 
             <p>${car.description}</p>
             <p>${car.cant}</p>
-            <img class="img" src="${downloadURL}" style="max-width: 200px; height: auto;" />
             <div>
               <button class="btn btn-primary btn-delete" data-id="${doc.id}">Delete</button>
               <button class="btn btn-secondary btn-edit" data-id="${doc.id}">Update</button>  
             </div>
-
           </div>
-        `;
+          <div class="col-md-6">
+            <br><img class="img" src="${downloadURL}" style="max-width: 60%; height: auto;" />
+          </div>
+        </div>
+      </div>
+    `;
     });
     
 });
