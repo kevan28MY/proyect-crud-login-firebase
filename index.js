@@ -1,21 +1,29 @@
-import { saveTask,getTasks,onGetTasks,deleteTask,getTask, updateTask } from "./firebase.js"
+import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,getDownloadURL } from "./firebase.js"
 
 
 
-const taskForm=document.getElementById('task-form')
-const tasksContainer=document.getElementById('tasks-container')
+const carForm=document.getElementById('car-form')
+const carsContainer=document.getElementById('cars-container')
+
+const carImageInput = document.getElementById("image-input");
+
+const fileData = document.querySelector(".filedata");
 let editStatus=false
 let id=''
 window.addEventListener('DOMContentLoaded', async()=>{
   
-  onGetTasks( (querySnapshot)=>{
+  onGetCars( (querySnapshot)=>{
     let html = "";
-    querySnapshot.forEach(doc => {
-      const task=doc.data()
-      html +=`
+    querySnapshot.forEach(async (doc) => {
+      const car=doc.data()
+      //const carId = doc.id;
+      const downloadURL = await getDownloadURL(`car-images/${doc.id}`);
+      const html =`
           <div class="card card-body mt-2 border-primary">
-            <h3 class="h5">${task.title}</h3> 
-            <p>${task.description}</p>
+            <h3 class="h5">${car.title}</h3> 
+            <p>${car.description}</p>
+            <p>${car.cant}</p>
+            <img class="img" src="${downloadURL}" />
             <div>
               <button class="btn btn-primary btn-delete" data-id="${doc.id}">Delete</button>
               <button class="btn btn-secondary btn-edit" data-id="${doc.id}">Update</button>  
@@ -24,30 +32,31 @@ window.addEventListener('DOMContentLoaded', async()=>{
           </div>
         `;
     });
-    tasksContainer.innerHTML = html
+    carsContainer.innerHTML += html;
 
-    const btnsDelete = tasksContainer.querySelectorAll('.btn-delete')
+    const btnsDelete = carsContainer.querySelectorAll('.btn-delete')
 
     btnsDelete.forEach(btn=>{
       btn.addEventListener("click", ({target:{dataset}})=> {
-          deleteTask(dataset.id)
+          deleteCar(dataset.id)
           
-          taskForm['btn-task-save'].innerHTML='Guardar'
+          carForm['btn-car-save'].innerHTML='Guardar'
       })
     })
 
-    const btnsEdit = tasksContainer.querySelectorAll('.btn-edit')
+    const btnsEdit = carsContainer.querySelectorAll('.btn-edit')
     btnsEdit.forEach(btn=>{
       btn.addEventListener("click", async e=> {
-          const taskDoc= await getTask(e.target.dataset.id) 
-          const task=taskDoc.data();
+          const carDoc= await getCar(e.target.dataset.id) 
+          const car=carDoc.data();
 
-          taskForm['task-title'].value=task.title
-          taskForm['task-description'].value=task.description
+          carForm['car-title'].value=car.title
+          carForm['car-description'].value=car.description
+          carForm['car-cant'].value=car.cant
           editStatus=true;
-          id=taskDoc.id;
+          id=carDoc.id;
 
-          taskForm['btn-task-save'].innerHTML='Update'
+          carForm['btn-car-save'].innerHTML='Update'
           // Bloquear el botón de eliminar
           const deleteButton = e.target.parentElement.querySelector('.btn-delete');
           deleteButton.disabled = true;
@@ -61,20 +70,44 @@ window.addEventListener('DOMContentLoaded', async()=>{
 });
 
 
-taskForm.addEventListener('submit',async(e)=>{
-  e.preventDefault();
-  const titleValue = taskForm["task-title"].value;
-  const descriptionValue = taskForm["task-description"].value;
+carImageInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  const fileName = Math.round(Math.random() * 9999) + file.name;
+  // if (fileName) {
+  //   fileData.style.display = "block";
+  // }
+  // fileData.innerHTML = fileName;
+  console.log("nombre :"+ fileName);
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const img = document.querySelector('.img');
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
 
+
+});
+/////////////////////////////////////////////
+carForm.addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  const titleValue = carForm["car-title"].value;
+  const descriptionValue = carForm["car-description"].value;
+  const cantValue = carForm["car-cant"].value;
+  const file = carForm["image-input"].files[0];
   if (!editStatus) {
-    saveTask(titleValue, descriptionValue);
+    
+    saveCarWithImage(titleValue, descriptionValue, cantValue, file);
   } else {
-    updateTask(id, {
+    updateCar(id, {
       title: titleValue,
       description: descriptionValue,
+      cant: cantValue
     });
     editStatus = false;
     
   }
-  taskForm.reset();
+  carForm.reset();
 })
+
+
+
