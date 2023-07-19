@@ -51,22 +51,11 @@ export const getCar=(id) => getDoc(doc(db,'cars',id));
 
 export const updateCar=(id,newFields)=>updateDoc(doc(db,'cars',id), newFields);
 
-////////////////////////////////////////////////////////////////
-// export const saveCarWithImage = async (title, description, cant, file) => {
-//   try {
-//     const storageRef = ref(storage,file.name);
-//     await uploadBytes(storageRef, file);
-//     const downloadURL = await getDownloadURL(storageRef);
-//     await saveCar(title, description, cant, downloadURL);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 export const saveCarWithImage = async (title, description, cant, file) => {
   try {
-    // const storageRef = ref(storage, "hotwheels-93f09.appspot.com/" + file.name);
+    
     const storageRef = ref(storage, "car-images/" + file.name);
-  // const uploadCar = put(storageRef, file);
+  
     await uploadBytes(storageRef, file);
     const downloadURL = await storageGetDownloadURL(storageRef);
     await saveCar(title, description, cant, downloadURL);
@@ -76,16 +65,6 @@ export const saveCarWithImage = async (title, description, cant, file) => {
 };
 
 
-// export const getDownloadURL = async (filePath) => {
-//   try {
-//     const fileRef = ref(storage, filePath);
-//     const downloadURL = await getDownloadURL(fileRef);
-//     return downloadURL;
-//   } catch (error) {
-//     console.log("Error al obtener la URL de descarga:", error);
-//     throw error;
-//   }
-// };
 export const getDownloadURL = async (filePath) => {
   try {
     const fileRef = ref(storage, filePath);
