@@ -5,9 +5,8 @@ import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,
 const carForm=document.getElementById('car-form')
 const carsContainer=document.getElementById('cars-container')
 
-const carImageInput = document.getElementById("image-input");
 
-const file = carForm["image-input"].files[0];
+// const file = carForm["image-input"].files[0];
 
 
 let editStatus=false
@@ -38,40 +37,40 @@ window.addEventListener('DOMContentLoaded', async()=>{
         </div>
       </div>
     `;
+    
     });
     
+    // Agregar event listeners a los botones de eliminar después de que se hayan creado en el DOM
+    const btnsDelete = carsContainer.querySelectorAll('.btn-delete');
+    btnsDelete.forEach(btn => {
+      btn.addEventListener("click", ({ target: { dataset } }) => {
+        deleteCar(dataset.id)
+      })
+    })
+
+    // Agregar event listeners a los botones de editar después de que se hayan creado en el DOM
+    const btnsEdit = carsContainer.querySelectorAll('.btn-edit');
+    btnsEdit.forEach(btn => {
+      btn.addEventListener("click", async e => {
+        const carDoc = await getCar(e.target.dataset.id)
+        const car = carDoc.data();
+
+        carForm['car-title'].value = car.title;
+        carForm['car-description'].value = car.description;
+        carForm['car-cant'].value = car.cant;
+        editStatus = true;
+        id = carDoc.id;
+
+        carForm['btn-car-save'].innerHTML = 'Update';
+
+        // Bloquear el botón de eliminar
+        const deleteButton = e.target.parentElement.querySelector('.btn-delete');
+        deleteButton.disabled = true;
+      })
+    })
+    
 });
-    const btnsDelete = carsContainer.querySelectorAll('.btn-delete')
-
-    btnsDelete.forEach(btn=>{
-      btn.addEventListener("click", ({target:{dataset}})=> {
-          deleteCar(dataset.id)
-          
-          carForm['btn-car-save'].innerHTML='Guardar'
-      })
-    })
-
-    const btnsEdit = carsContainer.querySelectorAll('.btn-edit')
-    btnsEdit.forEach(btn=>{
-      btn.addEventListener("click", async e=> {
-          const carDoc= await getCar(e.target.dataset.id) 
-          const car=carDoc.data();
-
-          carForm['car-title'].value=car.title
-          carForm['car-description'].value=car.description
-          carForm['car-cant'].value=car.cant
-          editStatus=true;
-          id=carDoc.id;
-
-          carForm['btn-car-save'].innerHTML='Update'
-          // Bloquear el botón de eliminar
-          const deleteButton = e.target.parentElement.querySelector('.btn-delete');
-          deleteButton.disabled = true;
-      })
-    })
-
-
-
+   
   } );
   
 /////////////////////////////////////////////
