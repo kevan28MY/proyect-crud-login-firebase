@@ -1,12 +1,12 @@
-import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,getStorageURL } from "./firebase.js"
+import { saveCar,getCars,onGetCars,deleteCar,getCar, updateCar,saveCarWithImage,getStorageURL,getCarsCount } from "./firebase.js"
 
 
 
 const carForm=document.getElementById('car-form')
 const carsContainer=document.getElementById('cars-container')
 
+const cantidadAutosContainer = document.getElementById('cantidad-autos');
 
-// const file = carForm["image-input"].files[0];
 
 
 let editStatus=false
@@ -95,5 +95,17 @@ carForm.addEventListener('submit',async(e)=>{
   carForm.reset();
 })
 
+function updateCantidadAutos() {
+  getCarsCount()
+    .then((cantidad) => {
+      cantidadAutosContainer.textContent = `Cantidad de autos registrados: ${cantidad}`;
+    })
+    .catch((error) => {
+      //console.error('Error al obtener la cantidad de autos:', error);
+    });
+}
+
+// Llamamos a la función al cargar la página para mostrar la cantidad inicial
+updateCantidadAutos();
 
 

@@ -33,14 +33,35 @@
 export const saveCar=async(title,description,cant,  imageUrl)=>{
   try {
     const docRef = await addDoc(collection(db, "cars"), { title, description,cant, imageUrl });
-    
+    //updateCantidadAutos();
   } catch (error) {
     console.error("Error al guardar el registro:", error);
   }
 }
 
 
-export const getCars=()=> getDocs(collection(db,'cars'));
+//export const getCars=()=> getDocs(collection(db,'cars'));
+//
+export const getCars = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'cars'));
+    const cars = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    return cars;
+  } catch (error) {
+    //console.error('Error al obtener los autos:', error);
+    throw error;
+  }
+};
+
+export const getCarsCount = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'cars'));
+    return querySnapshot.size;
+  } catch (error) {
+    //console.error('Error al obtener la cantidad de autos:', error);
+    throw error;
+  }
+};
 
 export const onGetCars=(callback)=> onSnapshot(collection(db,'cars'),callback);
 
